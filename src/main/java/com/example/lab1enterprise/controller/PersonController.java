@@ -1,7 +1,9 @@
 package com.example.lab1enterprise.controller;
 
+import com.example.lab1enterprise.dto.PersonDto;
 import com.example.lab1enterprise.entity.Persons;
 import com.example.lab1enterprise.exception.idNotFoundException;
+import com.example.lab1enterprise.mapper.PersonMapper;
 import com.example.lab1enterprise.repository.PersonRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -17,10 +19,13 @@ public class PersonController {
     @Inject
     PersonRepository repository;
 
+    @Inject
+    PersonMapper mapper;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Persons> getAllPersons(){
-        return repository.findAll();
+    public List<PersonDto> getAllPersons(@QueryParam("name") String name){
+        return mapper.map(repository.findAll());
     }
 
     @GET
@@ -50,8 +55,8 @@ public class PersonController {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updatePerson(@PathParam("id") Long id, Persons food) {
-        return Response.ok().entity(repository.updatePerson(id,food)).build();
+    public Response updatePerson(@PathParam("id") Long id, PersonDto person) {
+        return Response.ok().entity(mapper.map(repository.updatePerson(id, mapper.map(person)))).build();
     }
 
 }
