@@ -4,13 +4,15 @@ import com.example.lab1enterprise.entity.Persons;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.ApplicationPath;
 
 import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-public class PersonRepository {
+@Transactional
+    public class PersonRepository {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -19,7 +21,6 @@ public class PersonRepository {
     public List<Persons> findAll(){
         var query = entityManager.createQuery("select p from Persons p");
         return (List<Persons>) query.getResultList();
-
     }
 
     public Optional<Persons> findOne(Long id){
