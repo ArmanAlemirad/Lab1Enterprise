@@ -8,8 +8,8 @@ ENV WILDFLY_CLI /opt/jboss/wildfly/bin/jboss-cli.sh
 ENV WILDFLY_HOME /opt/jboss/wildfly
 ENV WILDFLY_USER admin
 ENV WILDFLY_PASS adminpw
-ENV DB_USER developer
-ENV DB_PASS password
+ARG DB_USER
+ARG DB_PASS
 ENV DB_URI host.docker.internal:3306
 ENV DB_NAME demo
 
